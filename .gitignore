@@ -1,0 +1,15 @@
+# Byte-compiled files
+__pycache__/
+
+# Distribution / packaging
+*.egg-info/
+
+# Testing
+.pytest_cache
+
+# VSCode settings
+settings.json
+
+# MacOS specific
+.DS_Store
+

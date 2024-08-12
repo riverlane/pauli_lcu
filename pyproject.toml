@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "numpy==1.26.4", "pytest"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+  "numpy==1.26.4", "pytest"
+]
+name = "pauli_lcu"
+version = "1.0"
+authors = [
+  { name="Aleksei Ivanov", email="aleksei.ivanov@riverlane.com" },
+  { name="Christoph Sunderhauf", email="christoph.sunderhauf@riverlane.com" }
+]
+
+description = "Decomposition of a matrix into Pauli strings"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["pauli_lcu"]
