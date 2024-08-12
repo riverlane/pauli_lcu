@@ -13,7 +13,7 @@ where
 ```
 
 and $r_j, s_j$ are the binary expansion coefficients of $r$ and $s$,  according
-to the algorithm presented in "Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Fast Pauli Decomposition via the Walsh-Hadamard Transform_ (2024)." 
+to the algorithm presented in "Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_ (2024)." 
 
 
 ## Installation
@@ -110,4 +110,4 @@ PauliList(['I', 'Z', 'X', 'Y'])
 
 If you find this package useful please cite our paper:
 
-Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Fast Pauli Decomposition via the Walsh-Hadamard Transform_ (2024).
+Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_ (2024).
