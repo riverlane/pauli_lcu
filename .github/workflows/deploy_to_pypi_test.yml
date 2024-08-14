@@ -13,17 +13,26 @@ jobs:
       matrix:
         os_dist:
           - {os: ubuntu-latest, dist: cp310-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp39-manylinux_x86_64}
+    env:
+      CIBW_BUILD: "${{ matrix.os_dist.dist }}"
+      CIBW_ARCHS_MACOS: "${{ matrix.os_dist.macosarch }}"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
-        with:
-          python-version: "3.10.11"
-      - name: Install pypa/build
-        run: >-
-          python3 -m  pip install build --user
-      - name: Build a binary wheel and source tarball
-        run: python3 -m build
+        # with:
+        #   python-version: "3.10.11"
+      - name: Install build tools
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install build cibuildwheel~=2.20.0
+      - name: Build a binary wheel
+        run: |
+          python3 -m cibuildwheel --print-build-identifiers
+          python3 -m cibuildwheel --output-dir dist
+      - name: Build source tarball
+        run: python3 -m build --sdist
       - name: Store the distribution packages
         uses: actions/upload-artifact@v3
         with:
@@ -47,7 +56,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - name: Publish distribution 📦 to TestPyPI
+      - name: Publish distribution to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
