@@ -12,8 +12,18 @@ jobs:
       fail-fast: false
       matrix:
         os_dist:
-          - {os: ubuntu-latest, dist: cp310-manylinux_x86_64}
+          # linux
+          - {os: ubuntu-latest, dist: cp38-manylinux_x86_64}
           - {os: ubuntu-latest, dist: cp39-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp310-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp311-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp312-manylinux_x86_64}
+          # windows 
+          - {os: windows-latest, dist: cp38-win_amd64}
+          - {os: windows-latest, dist: cp39-win_amd64}
+          - {os: windows-latest, dist: cp310-win_amd64}
+          - {os: windows-latest, dist: cp311-win_amd64}
+          - {os: windows-latest, dist: cp312-win_amd64}
     env:
       CIBW_BUILD: "${{ matrix.os_dist.dist }}"
       CIBW_ARCHS_MACOS: "${{ matrix.os_dist.macosarch }}"
