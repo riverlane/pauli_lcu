@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "numpy==1.26.4", "pytest"]
+requires = ["setuptools>=61.0", "numpy<2.0", "pytest"]
 build-backend = "setuptools.build_meta"
 
 [project]
 dependencies = [
-  "numpy==1.26.4", "pytest"
+  "numpy<2.0", "pytest"
 ]
 name = "pauli_lcu"
 version = "1.0"
