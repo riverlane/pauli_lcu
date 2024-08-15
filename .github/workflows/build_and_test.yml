@@ -1,0 +1,48 @@
+name: Build and test
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+
+jobs:
+  build:
+    name: Build distribution
+    runs-on: ${{ matrix.os_dist.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os_dist:
+          # linux
+          # - {os: ubuntu-latest, dist: cp38-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp39-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp310-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp311-manylinux_x86_64}
+          - {os: ubuntu-latest, dist: cp312-manylinux_x86_64}
+          # macos
+          # - {os: macos-latest, dist: cp38-macosx_arm64, macosarch: arm64}
+          - {os: macos-latest, dist: cp39-macosx_arm64, macosarch: arm64}
+          - {os: macos-latest, dist: cp310-macosx_arm64, macosarch: arm64}
+          - {os: macos-latest, dist: cp311-macosx_arm64, macosarch: arm64}
+          - {os: macos-latest, dist: cp312-macosx_arm64, macosarch: arm64}
+    env:
+      CIBW_BUILD: "${{ matrix.os_dist.dist }}"
+      CIBW_ARCHS_MACOS: "${{ matrix.os_dist.macosarch }}"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+      - name: Install build tools
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install build cibuildwheel~=2.20.0
+      - name: Build binary wheel
+        run: |
+          source .venv/bin/activate
+          python3 -m cibuildwheel --print-build-identifiers
+          python3 -m cibuildwheel --output-dir dist
+      - name: Build source tarball
+        run: |
+          source .venv/bin/activate
+          python3 -m build --sdist
