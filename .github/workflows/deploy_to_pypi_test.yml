@@ -35,7 +35,7 @@ jobs:
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
-          python3 -m pip install --upgrade pip --d
+          python3 -m pip install --upgrade pip
           python3 -m pip install build cibuildwheel~=2.20.0
       - name: Build a binary wheel
         run: |
