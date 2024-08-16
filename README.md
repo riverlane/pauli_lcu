@@ -13,7 +13,7 @@ where
 ```
 
 and $r_j, s_j$ are the binary expansion coefficients of $r$ and $s$,  according
-to the algorithm presented in "Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_ (2024)." 
+to the algorithm presented in "Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_, https://doi.org/10.48550/arXiv.2408.06206, (2024)." 
 
 
 ## Installation
@@ -82,8 +82,8 @@ X (1.5+0j)
 Y -0.5j
 Z (-1.5+0j)
 ```
-Alternatively, you can use `pauli_lcu.pauli_coefficients_lexicographic()` which uses extra memory to return lexicographically ordered coefficients.
-
+Alternatively, you can use `pauli_lcu.pauli_coefficients_lexicographic()` 
+which uses extra memory to return lexicographically ordered coefficients. 
 
 If you would like to restore original matrix elements apply inverse Pauli decomposition:
 ```pycon
@@ -93,6 +93,8 @@ If you would like to restore original matrix elements apply inverse Pauli decomp
 array([[0.+0.j, 1.+0.j],
        [2.+0.j, 3.+0.j]])
 ```
+However, keep in mind that if you used `pauli_lcu.pauli_coefficients_lexicographic()`, 
+you can't use `inverse_pauli_decomposition` since it's not implemented for lexicographically ordered arrays.
 
 We also added ZX-decomposition which can be used in Qiskit (you need it to install qiskit for this example):
 
@@ -114,4 +116,4 @@ PauliList(['I', 'Z', 'X', 'Y'])
 
 If you find this package useful please cite our paper:
 
-Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_ (2024).
+Timothy N. Georges, Bjorn K. Berntson, Christoph Sünderhauf, and Aleksei V. Ivanov, _Pauli Decomposition via the Fast Walsh-Hadamard Transform_, https://doi.org/10.48550/arXiv.2408.06206, (2024).
