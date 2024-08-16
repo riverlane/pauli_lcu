@@ -1,12 +1,11 @@
 name: Publish To PyPI
 on:
-  pull_request:
-    types: [closed]
+  push:
   workflow_call:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true && startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/')
     name: Build distribution
     runs-on: ${{ matrix.os_dist.os }}
     strategy:
