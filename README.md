@@ -17,6 +17,9 @@ to the algorithm presented in "Timothy N. Georges, Bjorn K. Berntson, Christoph 
 
 
 ## Installation
+To install from PyPi:
+
+    $ pip install pauli_lcu
 
 To install Python bindings from source:
 
@@ -24,7 +27,8 @@ To install Python bindings from source:
     $ cd pauli_lcu
     $ pip install .
 
-For use in C, `pauli_decomposition.h` can be used as a stand-alone library.
+For use in C, `pauli_decomposition.h` can be used as a stand-alone library. 
+Windows is not currently supported. In this case, we recommend to use WSL or Linux VM.
 
 ##  Examples for Python
 
