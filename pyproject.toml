@@ -7,7 +7,7 @@ dependencies = [
   "numpy<2.0", "pytest"
 ]
 name = "pauli_lcu"
-version = "1.0"
+version = "1.0.0"
 authors = [
   { name="Aleksei Ivanov", email="aleksei.ivanov@riverlane.com" },
   { name="Christoph Sunderhauf", email="christoph.sunderhauf@riverlane.com" }
