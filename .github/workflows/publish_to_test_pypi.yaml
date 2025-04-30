@@ -3,7 +3,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-sdist:
+    name: Build Sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+      - name: Install build tools
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python3 -m pip install --upgrade pip
+      - name: Build source tarball
+        run: |
+          source .venv/bin/activate
+          python3 -m build --sdist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-sdist
+          path: ./dist/*
+          overwrite: true
+          
+  build-wheels:
     name: Build distribution
     runs-on: ${{ matrix.os_dist.os }}
     strategy:
@@ -51,7 +73,8 @@ jobs:
   publish-to-test-pypi:
     name: Publish Python distribution to TestPyPI
     needs:
-      - build
+      - build-sdist
+      - build-wheels
     runs-on: ubuntu-latest
     environment:
       name: testpypi
