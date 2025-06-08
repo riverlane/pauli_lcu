@@ -20,6 +20,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 
 // Decompositions of matrices into Pauli strings.
 //
@@ -51,24 +52,25 @@ static inline void pauli_coefficients(uint32_t dim, double complex *data) {
     double complex *a, *b;
 
     // XOR transform
-    b = data;
+    // #pragma omp parallel for private(a, b, v, i)
     for(j = 0; j < dim; j++) {
-        a = data;
+        b = data + j * dim;
+        #pragma omp parallel for private(a, v)
         for(i = 0; i < j; i++) {
             // swap
+            a = data + i * dim;
             v = b[i^j];
             b[i^j] = a[i^j];
             a[i^j] = v;
-            a += dim;
         }
-        b += dim;
     }
 
+    #pragma omp parallel for private(a, b, v, i, hf)
     for(j = 0; j < dim; j++) {
         // Hadamard transform
         for(hf = 1; hf < dim; hf *= 2) {
-            b = data;
-            while(b < data + dim) {
+            b = data + j * dim;
+            while(b < data + j * dim + dim) {
                 a = b;
                 b += hf;
                 for(i = 0; i < hf; i++){
@@ -80,21 +82,22 @@ static inline void pauli_coefficients(uint32_t dim, double complex *data) {
             }
         }
 
-        for(i = 0; i < dim; i++) {
+        double complex *row = data + j * dim;
+        for (i = 0; i < dim; i++) {
             // Power of i factors
             switch((uint8_t) (__builtin_popcount(i&j) & 0b11)){
                 case 1:
-                    *data *= -I;
+                    row[i] *= -I;
                     break;
                 case 2:
-                    *data *= -1.0;
+                    row[i] *= -1.0;
                     break;
                 case 3:
-                    *data *= I;
+                    row[i] *= I;
                     break;
            }
            // Normalisation
-           *data++ /= dim;
+            row[i] /= dim;
         }
     }
 }
@@ -114,7 +117,7 @@ static inline void pauli_coefficients_lexicographic_order(uint32_t num_qubits, d
     memcpy(tmp, data, (dim << num_qubits) * sizeof(double complex));
 
     pauli_coefficients(dim, tmp);
-    
+
     uint32_t i, j;
     for(i = 0; i < dim; i++) {
         for(j = 0; j < dim; j++) {
@@ -151,7 +154,7 @@ static inline void pauli_string_ij(uint32_t i, uint32_t j, uint32_t num_qubits, 
     //     num_qubits - integer for number of qubits
     // Output:
     //     out - char string with at least num_qubits+1 characters allocated
-    
+
     uint64_t id = interleave_uint32_with_zeros(i^j) | (interleave_uint32_with_zeros(j) << 1);
     pauli_string_lexicographic_order(id, num_qubits, out);
 }
